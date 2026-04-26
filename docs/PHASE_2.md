@@ -65,10 +65,10 @@ Things we are NOT optimizing for in Phase 2: monetization, multi-country expansi
 
 | # | Feature | Why now | Rough size |
 |---|---|---|---|
-| 1 | **Organizer flow** + verified-organizer badge | Removes the admin bottleneck; biggest growth lever. | L (2–3 weeks) |
+| 1 | **Organizer flow** + verified-organizer badge ✅ MVP | Removes the admin bottleneck; biggest growth lever. | L — MVP shipped 2026-04-26. Follow-up: in-app admin queue (currently verified via SQL Editor). |
 | 2 | **Email digest notifications** | Engagement loop. "3 new people from your city joined Devcon." | M (1 week) |
 | 3 | **Account deletion + data export** | GDPR posture; required as we cross a few thousand users. | S (3 days) |
-| 4 | **Real-time participant updates** | Adds polish; uses Supabase Realtime, low effort. | S (2 days) |
+| 4 | **Real-time participant updates** ✅ | Adds polish; uses Supabase Realtime, low effort. | S — shipped 2026-04-26 |
 | 5 | **Search + city filter** | Phase 1 only filters by category. Search becomes important > 50 events. | M (4–5 days) |
 | 6 | **Smart matching hints** | "5 people arriving within 1h of you." Delight feature. | M (4–5 days) |
 | 7 | **Apple sign-in + GitHub sign-in** | Apple is mandatory if we ever ship iOS; GitHub is on-brand for tech events. | S (1 day each) |

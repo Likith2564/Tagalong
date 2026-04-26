@@ -79,6 +79,7 @@ export type Database = {
           end_date: string
           id: string
           is_featured: boolean
+          is_published: boolean
           name: string
           slug: string
           start_date: string
@@ -95,6 +96,7 @@ export type Database = {
           end_date: string
           id?: string
           is_featured?: boolean
+          is_published?: boolean
           name: string
           slug: string
           start_date: string
@@ -111,6 +113,7 @@ export type Database = {
           end_date?: string
           id?: string
           is_featured?: boolean
+          is_published?: boolean
           name?: string
           slug?: string
           start_date?: string
@@ -137,6 +140,10 @@ export type Database = {
           github_username: string | null
           id: string
           instagram_handle: string | null
+          is_admin: boolean
+          organizer_applied_at: string | null
+          organizer_status: string
+          organizer_verified_at: string | null
           telegram_handle: string | null
           twitter_handle: string | null
           updated_at: string
@@ -151,6 +158,10 @@ export type Database = {
           github_username?: string | null
           id: string
           instagram_handle?: string | null
+          is_admin?: boolean
+          organizer_applied_at?: string | null
+          organizer_status?: string
+          organizer_verified_at?: string | null
           telegram_handle?: string | null
           twitter_handle?: string | null
           updated_at?: string
@@ -165,6 +176,10 @@ export type Database = {
           github_username?: string | null
           id?: string
           instagram_handle?: string | null
+          is_admin?: boolean
+          organizer_applied_at?: string | null
+          organizer_status?: string
+          organizer_verified_at?: string | null
           telegram_handle?: string | null
           twitter_handle?: string | null
           updated_at?: string

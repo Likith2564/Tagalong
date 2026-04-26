@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LogOut, UserRound } from "lucide-react";
+import { CalendarPlus, LogOut, ShieldCheck, Sparkles, UserRound } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -13,15 +13,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { OrganizerStatus } from "@/lib/auth/organizer";
 import { createClient } from "@/lib/supabase/client";
 
 type Props = {
   fullName: string;
   email: string;
   avatarUrl: string | null;
+  organizerStatus: OrganizerStatus;
+  isAdmin: boolean;
 };
 
-export function NavUserMenu({ fullName, email, avatarUrl }: Props) {
+export function NavUserMenu({
+  fullName,
+  email,
+  avatarUrl,
+  organizerStatus,
+  isAdmin,
+}: Props) {
   const router = useRouter();
   const [signingOut, setSigningOut] = useState(false);
   const initials = getInitials(fullName);
@@ -45,7 +54,7 @@ export function NavUserMenu({ fullName, email, avatarUrl }: Props) {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="end" className="w-60">
         <div className="px-2 py-1.5">
           <p className="text-sm font-medium text-foreground">{fullName}</p>
           <p className="truncate text-xs text-muted-foreground">{email}</p>
@@ -55,6 +64,28 @@ export function NavUserMenu({ fullName, email, avatarUrl }: Props) {
           <UserRound className="h-4 w-4" />
           Edit profile
         </DropdownMenuItem>
+
+        {isAdmin ? (
+          <DropdownMenuItem render={<Link href="/admin" />}>
+            <ShieldCheck className="h-4 w-4" />
+            Admin dashboard
+          </DropdownMenuItem>
+        ) : null}
+
+        {organizerStatus === "verified" ? (
+          <DropdownMenuItem render={<Link href="/organizer/events" />}>
+            <CalendarPlus className="h-4 w-4" />
+            Organizer dashboard
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem render={<Link href="/organizer/apply" />}>
+            <Sparkles className="h-4 w-4" />
+            {organizerStatus === "pending"
+              ? "Application pending"
+              : "Become an organizer"}
+          </DropdownMenuItem>
+        )}
+
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut} disabled={signingOut}>
           <LogOut className="h-4 w-4" />

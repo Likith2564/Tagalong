@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ExternalLink, MapPin } from "lucide-react";
+import { ArrowLeft, BadgeCheck, ExternalLink, MapPin } from "lucide-react";
 
 import { CategoryBadge } from "@/components/category-badge";
 import { ParticipantCard } from "@/components/participant-card";
+import { RealtimeParticipantsListener } from "@/components/realtime-participants-listener";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { buttonVariants } from "@/components/ui/button";
+import { isVerifiedOrganizer } from "@/lib/auth/organizer";
 import {
   CATEGORY_META,
   isEventCategory,
@@ -30,6 +33,18 @@ export default async function EventDetailPage({ params }: { params: Params }) {
   }
 
   const meta = CATEGORY_META[event.category];
+
+  const { data: organizer } = event.created_by
+    ? await supabase
+        .from("profiles")
+        .select("full_name, avatar_url, organizer_status")
+        .eq("id", event.created_by)
+        .maybeSingle()
+    : { data: null };
+
+  const organizerVerified = isVerifiedOrganizer(
+    organizer?.organizer_status ?? null,
+  );
 
   const {
     data: { user },
@@ -73,6 +88,7 @@ export default async function EventDetailPage({ params }: { params: Params }) {
 
   return (
     <main className="flex flex-1 flex-col">
+      <RealtimeParticipantsListener eventId={event.id} />
       <div className="mx-auto w-full max-w-4xl px-6 py-6 sm:py-10">
         <Link
           href="/events"
@@ -140,6 +156,33 @@ export default async function EventDetailPage({ params }: { params: Params }) {
             ) : null}
           </div>
         </header>
+
+        {organizer ? (
+          <div className="flex items-center gap-3 rounded-2xl border border-border bg-surface p-4">
+            <Avatar className="h-10 w-10 border border-border">
+              {organizer.avatar_url ? (
+                <AvatarImage src={organizer.avatar_url} alt={organizer.full_name} />
+              ) : null}
+              <AvatarFallback className="bg-muted text-foreground text-sm font-medium">
+                {organizer.full_name.slice(0, 2).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
+                Hosted by
+              </p>
+              <p className="flex flex-wrap items-center gap-1.5 text-sm font-semibold text-foreground">
+                {organizer.full_name}
+                {organizerVerified ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-medium text-accent">
+                    <BadgeCheck className="h-3 w-3" />
+                    Verified
+                  </span>
+                ) : null}
+              </p>
+            </div>
+          </div>
+        ) : null}
 
         {event.description ? (
           <p className="max-w-2xl whitespace-pre-line text-base leading-relaxed text-foreground/90">
