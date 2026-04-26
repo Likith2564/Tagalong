@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "@/components/logo";
 import { NavUserMenu } from "@/components/nav-user-menu";
 import { buttonVariants } from "@/components/ui/button";
+import { asOrganizerStatus } from "@/lib/auth/organizer";
 import { createClient } from "@/lib/supabase/server";
 import { cn } from "@/lib/utils";
 
@@ -15,12 +16,14 @@ export async function Navbar() {
   let profile: {
     full_name: string;
     avatar_url: string | null;
+    organizer_status: string;
+    is_admin: boolean;
   } | null = null;
 
   if (user) {
     const { data } = await supabase
       .from("profiles")
-      .select("full_name, avatar_url")
+      .select("full_name, avatar_url, organizer_status, is_admin")
       .eq("id", user.id)
       .maybeSingle();
     profile = data;
@@ -52,6 +55,8 @@ export async function Navbar() {
               fullName={profile.full_name}
               email={user.email ?? ""}
               avatarUrl={profile.avatar_url}
+              organizerStatus={asOrganizerStatus(profile.organizer_status)}
+              isAdmin={profile.is_admin}
             />
           ) : (
             <Link
