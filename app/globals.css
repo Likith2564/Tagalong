@@ -1,0 +1,107 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/*
+ * Tagalong design tokens.
+ * Following shadcn/ui's CSS-variable convention so any shadcn component
+ * we install picks up our palette automatically.
+ *
+ * Brand: warm off-white background, warm-leaning near-black text,
+ * coral-orange accent. See README §9 "Design system".
+ */
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+
+  /* Category badge colors. */
+  --color-cat-tech: var(--cat-tech);
+  --color-cat-running: var(--cat-running);
+  --color-cat-music: var(--cat-music);
+  --color-cat-sports: var(--cat-sports);
+  --color-cat-conference: var(--cat-conference);
+  --color-cat-college: var(--cat-college);
+  --color-cat-other: var(--cat-other);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+:root {
+  --background: #fffbf5;
+  --surface: #ffffff;
+  --foreground: #1f1b16;
+
+  --card: #ffffff;
+  --card-foreground: #1f1b16;
+  --popover: #ffffff;
+  --popover-foreground: #1f1b16;
+
+  --primary: #ff6b3d;
+  --primary-foreground: #ffffff;
+
+  --secondary: #f5ede0;
+  --secondary-foreground: #1f1b16;
+
+  --muted: #f5ede0;
+  --muted-foreground: #6b6258;
+
+  --accent: #ff6b3d;
+  --accent-foreground: #ffffff;
+
+  --destructive: #c8453b;
+  --border: #ede6db;
+  --input: #ede6db;
+  --ring: #ff6b3d;
+
+  --cat-tech: #5b8def;
+  --cat-running: #2f9e6e;
+  --cat-music: #b96bd5;
+  --cat-sports: #e5894a;
+  --cat-conference: #7e7c8f;
+  --cat-college: #d5a03b;
+  --cat-other: #8a8275;
+
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+}
